@@ -1,86 +1,138 @@
 import React, { useState } from "react";
-import { TextField, Button, Container } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 
 interface LoginFormProps {
-    // You can define any props you need here
+  // You can define any props you need here
 }
 
 const LoginForm: React.FC<LoginFormProps> = () => {
-    const [username, setUsername] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-    const handleUsernameChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setUsername(event.target.value);
+  const [masterData, setMasterData] = useState<
+    | {
+        id: number;
+        uuid: string;
+        name: string;
+        note: string;
+        completed: boolean | null;
+        createdAt: string;
+        updatedAt: string;
+      }[]
+    | null
+  >(null);
+
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = {
+      username,
+      password,
+      completed: true,
     };
 
-    const handlePasswordChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setPassword(event.target.value);
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "http://localhost:4040/post/createData",
+      headers: {
+        "Content-type": "application/json",
+      },
+      data: JSON.stringify(formData),
     };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (username && password) {
-            // You can perform login or validation logic here
-            const formData = {
-                username,
-                password,
-                completed: true,
-            };
+    await axios.request(config);
+  };
 
-            let config = {
-                method: "post",
-                maxBodyLength: Infinity,
-                url: "http://localhost:4040/post/createData",
-                headers: {
-                    "Content-type": "application/json",
-                },
-                data: JSON.stringify(formData),
-            };
+  const handleGetMasterData = async () => {
+    const response = await axios.get(`http://localhost:4040/post/getData`);
+    setMasterData(response.data);
+  };
 
-            const response = await axios.request(config);
-            console.log(
-                "🚀 ~ file: form.tsx:45 ~ handleSubmit ~ response:",
-                response
-            );
-        }
-    };
+  const handleClearData = () => {
+    setMasterData(null);
+  };
 
-    return (
-        <Container maxWidth="xs">
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    label="Username"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={username}
-                    onChange={handleUsernameChange}
-                />
-                <TextField
-                    label="Password"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    type="password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                />
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                >
-                    Submit
-                </Button>
-            </form>
-        </Container>
-    );
+  return (
+    <Container maxWidth="xs">
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Username"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={username}
+          onChange={handleUsernameChange}
+        />
+        <TextField
+          label="Password"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          type="password"
+          value={password}
+          onChange={handlePasswordChange}
+        />
+
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Submit
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={handleGetMasterData}
+            >
+              Get all data
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={handleClearData}
+            >
+              Clear
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+      <Container maxWidth="xs" style={{ marginTop: "20px" }}>
+        {masterData &&
+          masterData.map((data) => (
+            <Paper
+              key={data.id}
+              elevation={3}
+              style={{ padding: "10px", marginBottom: "10px" }}
+            >
+              <Typography variant="subtitle1">Username: {data.name}</Typography>
+              <Typography variant="body1">Password: {data.note}</Typography>
+            </Paper>
+          ))}
+      </Container>
+    </Container>
+  );
 };
 
 export default LoginForm;
