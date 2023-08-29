@@ -6,6 +6,7 @@ import {
   Grid,
   Paper,
   Typography,
+  Input,
 } from "@mui/material";
 import axios from "axios";
 
@@ -28,7 +29,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
         updatedAt: string;
       }[]
     | null
+    | undefined
   >(null);
+
+  const [editMode, setEditMode] = useState(false);
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -58,6 +62,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     };
 
     await axios.request(config);
+    await handleGetMasterData();
   };
 
   const handleGetMasterData = async () => {
@@ -73,6 +78,37 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     await axios.delete(`http://localhost:4040/post/deleteData/${uuid}`);
     await handleGetMasterData();
   };
+
+  const handleDataEditChange = (uuid: string, value: string, name: string) => {
+    const updatedData = masterData?.map((data) => {
+      if (data.uuid === uuid) {
+        return { ...data, [name]: value };
+      } else {
+        return data;
+      }
+    });
+    setMasterData(updatedData);
+  };
+
+  const handleEditData = async (uuid: string) => {
+    const updatedData = masterData?.find((data) => data.uuid === uuid);
+    const updatedObj = {
+      username: updatedData?.name,
+      password: updatedData?.note,
+    };
+    if (editMode) {
+      const response = await axios.put(
+        `http://localhost:4040/post/updateData/${uuid}`,
+        updatedObj
+      );
+      console.log(response);
+    }
+    setEditMode(prev => !prev);
+  };
+
+  useEffect(() => {
+    console.log(masterData);
+  }, [masterData]);
 
   return (
     <Container maxWidth="xs">
@@ -138,18 +174,37 @@ const LoginForm: React.FC<LoginFormProps> = () => {
               }}
             >
               <div>
-                <Typography variant="subtitle1">
-                  Username: {data.name}
-                </Typography>
-                <Typography variant="body1">Password: {data.note}</Typography>
+                <Input
+                  value={data.name}
+                  onChange={(e) =>
+                    handleDataEditChange(data.uuid, e.target.value, "name")
+                  }
+                  disabled={!editMode}
+                />
+                <Input
+                  value={data.note}
+                  onChange={(e) =>
+                    handleDataEditChange(data.uuid, e.target.value, "note")
+                  }
+                  disabled={!editMode}
+                />
               </div>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => handleDeleteData(data.uuid)}
-              >
-                Delete
-              </Button>
+              <div>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => handleDeleteData(data.uuid)}
+                >
+                  Delete
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => handleEditData(data.uuid)}
+                >
+                  {editMode ? "Save" : "Update"}
+                </Button>
+              </div>
             </Paper>
           ))}
       </Container>

@@ -15,8 +15,14 @@ const deleteDataControllerAction = makeDeleteDataControllerAction({
   deleteData: useCases.deleteData,
 });
 
+const makeUpdateDataControllerAction = require("./update-data");
+const updateDataControllerAction = makeUpdateDataControllerAction({
+  updateData: useCases.updateData,
+});
+
 module.exports = Object.freeze({
   createDataControllerAction,
   getDataControllerAction,
   deleteDataControllerAction,
+  updateDataControllerAction,
 });

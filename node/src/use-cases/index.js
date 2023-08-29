@@ -23,8 +23,15 @@ const deleteData = makeDeleteData({
   deleteDatadb: taskTable.deleteData,
 });
 
+const makeUpdateData = require("./update-data");
+const updateData = makeUpdateData({
+  updateDatadb: taskTable.updateData,
+  moment
+});
+
 module.exports = Object.freeze({
   createData,
   getData,
   deleteData,
+  updateData,
 });

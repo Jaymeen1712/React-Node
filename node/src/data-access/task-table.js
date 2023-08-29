@@ -12,9 +12,16 @@ module.exports = function makeTaskTable({ connection }) {
   }
 
   async function deleteData({ uuid }) {
-    console.log("🚀 ~@@@@@@@ file: task-table.js:15 ~ deleteData ~ uuid:", uuid)
     const sql = `DELETE FROM posts WHERE uuid = '${uuid}'`;
     const result = await connection.query(sql);
+    return result;
+  }
+
+  async function updateData({ uuid, updateObj }) {
+    console.log("🚀 ~ file: task-table.js:21 ~ updateData ~ updateObj:", updateObj)
+    const sql = `UPDATE posts SET ? WHERE uuid = ?`;
+    const values = [updateObj, uuid];
+    const result = await connection.query(sql, values);
     return result;
   }
 
@@ -22,5 +29,6 @@ module.exports = function makeTaskTable({ connection }) {
     createData,
     getData,
     deleteData,
+    updateData
   });
 };
