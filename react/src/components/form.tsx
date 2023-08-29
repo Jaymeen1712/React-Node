@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -69,6 +69,11 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     setMasterData(null);
   };
 
+  const handleDeleteData = async (uuid: string) => {
+    await axios.delete(`http://localhost:4040/post/deleteData/${uuid}`);
+    await handleGetMasterData();
+  };
+
   return (
     <Container maxWidth="xs">
       <form onSubmit={handleSubmit}>
@@ -124,10 +129,27 @@ const LoginForm: React.FC<LoginFormProps> = () => {
             <Paper
               key={data.id}
               elevation={3}
-              style={{ padding: "10px", marginBottom: "10px" }}
+              style={{
+                padding: "10px",
+                marginBottom: "10px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              <Typography variant="subtitle1">Username: {data.name}</Typography>
-              <Typography variant="body1">Password: {data.note}</Typography>
+              <div>
+                <Typography variant="subtitle1">
+                  Username: {data.name}
+                </Typography>
+                <Typography variant="body1">Password: {data.note}</Typography>
+              </div>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleDeleteData(data.uuid)}
+              >
+                Delete
+              </Button>
             </Paper>
           ))}
       </Container>

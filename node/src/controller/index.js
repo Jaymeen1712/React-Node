@@ -10,7 +10,13 @@ const getDataControllerAction = makeGetDataControllerAction({
   getData: useCases.getData,
 });
 
+const makeDeleteDataControllerAction = require("./delete-data");
+const deleteDataControllerAction = makeDeleteDataControllerAction({
+  deleteData: useCases.deleteData,
+});
+
 module.exports = Object.freeze({
   createDataControllerAction,
-  getDataControllerAction
+  getDataControllerAction,
+  deleteDataControllerAction,
 });

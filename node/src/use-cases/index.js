@@ -18,7 +18,13 @@ const getData = makeGetData({
   getDatadb: taskTable.getData,
 });
 
+const makeDeleteData = require("./delete-data");
+const deleteData = makeDeleteData({
+  deleteDatadb: taskTable.deleteData,
+});
+
 module.exports = Object.freeze({
   createData,
-  getData
+  getData,
+  deleteData,
 });
