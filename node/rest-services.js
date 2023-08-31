@@ -1,6 +1,6 @@
 // Endpoints
 
-const controller = require("./src/controller");
+const controller = require("./controller");
 const express = require("express");
 const router = express.Router();
 

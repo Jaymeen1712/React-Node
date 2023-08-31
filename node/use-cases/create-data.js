@@ -2,7 +2,7 @@ module.exports = function makeCreateData({
   uuidv4,
   // Joi,
   moment,
-  // makeDataTemplate,
+  makeDataTemplate,
   createDatadb,
 }) {
   return async function createData({ body }) {
@@ -11,11 +11,17 @@ module.exports = function makeCreateData({
     const createdAt = moment().format("YYYY-MM-DD HH:mm:ss");
     const updatedAt = moment().format("YYYY-MM-DD HH:mm:ss");
 
-    let insertObj = {
-      uuid: uuid,
+    const entitiesResult = makeDataTemplate({
       name: body.username,
       note: body.password,
       completed: body.completed,
+    });
+
+    let insertObj = {
+      uuid: uuid,
+      name: entitiesResult.getName(),
+      note: entitiesResult.getNote(),
+      completed: entitiesResult.getCompleted(),
       createdAt,
       updatedAt,
     };

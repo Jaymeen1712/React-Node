@@ -26,7 +26,7 @@ const deleteData = makeDeleteData({
 const makeUpdateData = require("./update-data");
 const updateData = makeUpdateData({
   updateDatadb: taskTable.updateData,
-  moment
+  moment,
 });
 
 module.exports = Object.freeze({
