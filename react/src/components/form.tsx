@@ -54,7 +54,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:4040/post/createData",
+      url: "http://localhost:4040/demo/api/v1/createData",
       headers: {
         "Content-type": "application/json",
       },
@@ -66,7 +66,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   };
 
   const handleGetMasterData = async () => {
-    const response = await axios.get(`http://localhost:4040/post/getData`);
+    const response = await axios.get(`http://localhost:4040/demo/api/v1/getData`);
     setMasterData(response.data);
   };
 
@@ -75,7 +75,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   };
 
   const handleDeleteData = async (uuid: string) => {
-    await axios.delete(`http://localhost:4040/post/deleteData/${uuid}`);
+    await axios.delete(`http://localhost:4040/demo/api/v1/deleteData/${uuid}`);
     await handleGetMasterData();
   };
 
