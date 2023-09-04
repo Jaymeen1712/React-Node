@@ -1,16 +1,16 @@
 import React from "react";
-import ContactForm from "../../components/form";
+import CustomGrid from "../../../components/table";
 import { Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+const Table = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <Button onClick={() => navigate("table")}>Table</Button>
-      <ContactForm />
+      <Button onClick={() => navigate(-1)}>Back</Button>
+      <CustomGrid />
     </div>
   );
 };
 
-export default Dashboard;
+export default Table;
