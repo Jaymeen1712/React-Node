@@ -5,7 +5,6 @@ module.exports = function makeCreateForm({
   createFormdb,
 }) {
   return async function createForm({ body }) {
-    console.log("inside createform.......................1.1111111111");
     const uuid = uuidv4();
     const createdAt = moment().format("YYYY-MM-DD HH:mm:ss");
     const updatedAt = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -27,18 +26,20 @@ module.exports = function makeCreateForm({
       email: entitiesResult.getEmail(),
       subscribe: entitiesResult.getSubscribe(),
       password: entitiesResult.getPassword(),
+      createdAt,
+      updatedAt,
     };
 
     const result = await createFormdb({ insertObj });
 
     if (result[0].affectedRows > 0) {
       const response = {
-        message: "Task created successfully!",
+        message: "Form submitted successfully!",
         uuid: insertObj.uuid,
       };
       return response;
     } else {
-      return { message: "Task Failed!" };
+      return { message: "Form is not submitted!" };
     }
   };
 };

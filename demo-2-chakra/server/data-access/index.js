@@ -13,8 +13,6 @@ const connection = mysql
 
 const makeTaskTable = require("./task-table");
 const taskTable = makeTaskTable({ connection });
-console.log("🚀 ~ file: index.js:16 ~ taskTable:", taskTable)
-console.log("🚀 ~ file: index.js:16 ~ makeTaskTable:", makeTaskTable)
 
 module.exports = Object.freeze({
   taskTable,

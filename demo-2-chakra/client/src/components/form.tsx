@@ -7,6 +7,7 @@ import {
   Input,
   Button,
   Checkbox,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -18,6 +19,21 @@ interface FormData {
   password: string;
 }
 
+const toastConfig = {
+  success: {
+    title: "Success",
+    description: "Form submitted successfully",
+    duration: 3000,
+    isClosable: true,
+  },
+  error: {
+    title: "Error",
+    description: "Form submission failed",
+    duration: 3000,
+    isClosable: true,
+  },
+};
+
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -26,6 +42,8 @@ const ContactForm: React.FC = () => {
     isSubscribed: false,
     password: "",
   });
+
+  const toast = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -39,13 +57,22 @@ const ContactForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { firstName, lastName, email, isSubscribed, password } = formData;
-    await axios.post("http://localhost:4042/contactForm/api/v1/createForm", {
-      firstName,
-      lastName,
-      email,
-      subscribed: isSubscribed,
-      password,
-    });
+    try {
+      await axios.post(
+        "http://localhost:4042/contactForm/api/v1/createForm",
+        {
+          firstName,
+          lastName,
+          email,
+          subscribed: isSubscribed,
+          password,
+        }
+      );
+
+      toast(toastConfig.success);
+    } catch (error) {
+      toast(toastConfig.error);
+    }
   };
 
   return (

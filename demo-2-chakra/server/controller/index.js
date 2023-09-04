@@ -5,6 +5,12 @@ const createFormActionController = makeCreateFormActionController({
   createForm: useCases.createForm,
 });
 
+const makeGetFormActionController = require("./get-form-controller");
+const getFormActionController = makeGetFormActionController({
+  getForm: useCases.getForm,
+});
+
 module.exports = Object.freeze({
   createFormActionController,
+  getFormActionController
 });

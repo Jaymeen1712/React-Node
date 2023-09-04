@@ -2,10 +2,8 @@ const Joi = require("joi");
 const { v4: uuidv4 } = require("uuid");
 const moment = require("moment");
 
-const {taskTable} = require("../data-access");
-console.log("🚀 ~ file: index.js:6 ~ taskTable:", taskTable)
+const { taskTable } = require("../data-access");
 const makeFormTemplate = require("../entities");
-// console.log("🚀 ~ file: index.js:7 ~ makeFormTemplate:", makeFormTemplate)
 
 const makeCreateForm = require("./create-form");
 const createForm = makeCreateForm({
@@ -16,6 +14,10 @@ const createForm = makeCreateForm({
   createFormdb: taskTable.createForm,
 });
 
+const makeGetForm = require("./get-form");
+const getForm = makeGetForm({ getFormdb: taskTable.getForm });
+
 module.exports = Object.freeze({
   createForm,
+  getForm,
 });

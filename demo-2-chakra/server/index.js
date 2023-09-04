@@ -14,7 +14,6 @@ app.use(Cors());
 
 // MOUNTING ROUTES
 app.use(SERVICE_ENDPOINT, restService.router);
-console.log("🚀 ~ file: index.js:17 ~ SERVICE_ENDPOINT:", SERVICE_ENDPOINT)
 
 const port = process.env.PORT ? process.env.Port : 4042;
 app.listen(port, () => {
