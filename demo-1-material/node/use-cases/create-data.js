@@ -6,7 +6,6 @@ module.exports = function makeCreateData({
   createDatadb,
 }) {
   return async function createData({ body }) {
-    console.log("🚀 ~ file: create-data.js:9 ~ createData ~ body:", body);
     const uuid = uuidv4();
     const createdAt = moment().format("YYYY-MM-DD HH:mm:ss");
     const updatedAt = moment().format("YYYY-MM-DD HH:mm:ss");

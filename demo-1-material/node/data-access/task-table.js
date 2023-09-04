@@ -18,7 +18,6 @@ module.exports = function makeTaskTable({ connection }) {
   }
 
   async function updateData({ uuid, updateObj }) {
-    console.log("🚀 ~ file: task-table.js:21 ~ updateData ~ updateObj:", updateObj)
     const sql = `UPDATE posts SET ? WHERE uuid = ?`;
     const values = [updateObj, uuid];
     const result = await connection.query(sql, values);

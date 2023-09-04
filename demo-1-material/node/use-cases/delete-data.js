@@ -1,6 +1,5 @@
 module.exports = function makeDeleteData({ deleteDatadb }) {
   return async function deleteData({ uuid }) {
-    console.log("🚀 ~ !!1file: delete-data.js:3 ~ deleteData ~ uuid:", uuid)
     const result = await deleteDatadb({ uuid });
 
     if (result && result[0].affectedRows > 0) {

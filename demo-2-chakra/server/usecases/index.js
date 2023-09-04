@@ -17,7 +17,14 @@ const createForm = makeCreateForm({
 const makeGetForm = require("./get-form");
 const getForm = makeGetForm({ getFormdb: taskTable.getForm });
 
+const makeGetSingleForm = require("./get-single-form");
+const getSingleForm = makeGetSingleForm({
+  Joi,
+  getSingleFormdb: taskTable.getSingleForm,
+});
+
 module.exports = Object.freeze({
   createForm,
   getForm,
+  getSingleForm
 });
