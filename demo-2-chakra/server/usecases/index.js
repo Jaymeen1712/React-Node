@@ -23,8 +23,15 @@ const getSingleForm = makeGetSingleForm({
   getSingleFormdb: taskTable.getSingleForm,
 });
 
+const makeGetPageData = require("./get-page-data");
+const getPageData = makeGetPageData({
+  Joi,
+  getPageDatadb: taskTable.getPageData,
+});
+
 module.exports = Object.freeze({
   createForm,
   getForm,
-  getSingleForm
+  getSingleForm,
+  getPageData,
 });

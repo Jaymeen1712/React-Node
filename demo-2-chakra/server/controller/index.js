@@ -15,8 +15,14 @@ const getSingleFormActionController = makeGetSingleFormActionController({
   getSingleForm: useCases.getSingleForm,
 });
 
+const makeGetPageDataActionController = require("./get-page-data-controller");
+const getPageDataActionController = makeGetPageDataActionController({
+  getPageData: useCases.getPageData,
+});
+
 module.exports = Object.freeze({
   createFormActionController,
   getFormActionController,
-  getSingleFormActionController
+  getSingleFormActionController,
+  getPageDataActionController,
 });
